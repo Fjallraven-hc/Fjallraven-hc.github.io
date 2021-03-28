@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>cs224n-2019, Lecture02 notes, Word Vectors and Word Senses - Yhc&#39;s homepage</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Yhc,"> 
+    <meta name="description" content="
+Lecture 2: Word Vectors and Word Sensesthis is a notebook used really for class notes!
+Review: Mai,"> 
+    <meta name="author" content="Yhc"> 
+    <link rel="alternative" href="atom.xml" title="Yhc&#39;s homepage" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Yhc&#39;s homepage</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://Fjallraven-hc.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">cs224n-2019, Lecture02 notes, Word Vectors and Word Senses</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">cs224n-2019, Lecture02 notes, Word Vectors and Word Senses</h1>
+        <div class="stuff">
+            <span>三月 28, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" rel="tag">自然语言处理</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<h1 id="Lecture-2-Word-Vectors-and-Word-Senses"><a href="#Lecture-2-Word-Vectors-and-Word-Senses" class="headerlink" title="Lecture 2: Word Vectors and Word Senses"></a>Lecture 2: Word Vectors and Word Senses</h1><p>this is a notebook used really for class notes!</p>
+<h2 id="Review-Main-idea-of-word2vec"><a href="#Review-Main-idea-of-word2vec" class="headerlink" title="Review: Main idea of word2vec"></a>Review: Main idea of word2vec</h2><p>lterate through each word of the whole corpus</p>
+<p>Predict surrounding words using word vectors</p>
+<p>$P(o|c)=\frac{exp(u_o^Tv_c)}{\sum_{w\in V}exp(u_w^Tv_c)}$</p>
+<p>the goal is to change the word vector representation so that it can predict well.</p>
+<p>Every word must have a high dot product with words like that and that and …?</p>
+<p>word2vec maximizes objective function by putting similar words nearby in space.</p>
+<h2 id="2-Optimization-Gradient-Descent"><a href="#2-Optimization-Gradient-Descent" class="headerlink" title="2. Optimization: Gradient Descent"></a>2. Optimization: Gradient Descent</h2><p>we have a cost function $J(\theta)$ we want to minimize.<br>Gradient Descent is an alorithm to minimize $J(\theta)$.<br>Idea: for current value of $\theta$, calculate gradient of $J(\theta)$, then take small step in the direction of neative gradient. Repeat.</p>
+<p>Note: Our objective function may not be convex.</p>
+<p>Update equation (in matrix notation):<br>$$\theta^{new} = \theta^{old}-\alpha\nabla_\theta J(\theta)$$</p>
+<p>Update equation (for a single parameter):<br>$$\theta^{new}_j = \theta^{old}_j-\alpha\frac{\partial}{\partial\theta_j^{old}} J(\theta)$$</p>
+<h3 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h3><p>$J(\theta)$ is a function of all windows in the corpus (potentially billions!), so $\nabla_{\theta}J(\theta)$ is very expensive to compute. You would wait a very long time before making a single update!</p>
+<p>Very bad idea for pretty much all neural nets!<br>Solution: Stochastic gradient descent (SGD)</p>
+<h2 id="1b-Word2vec-More-details"><a href="#1b-Word2vec-More-details" class="headerlink" title="1b. Word2vec: More details"></a>1b. Word2vec: More details</h2><p>$$Skip-grams (SG)$$<br>Predict context(“outside”) words(position independent) given center word<br>$$Continuous\ Bag\ of\ Words\ (CBOW)$$<br>Predict center word from (bag of) context words</p>
+<p>Actually we presented: Skip-gram model</p>
+<h4 id="Additional-efficiency-in-training"><a href="#Additional-efficiency-in-training" class="headerlink" title="Additional efficiency in training:"></a>Additional efficiency in training:</h4><p>Negative sampling</p>
+<p>So far: Focus on naive softmax (simpler, but expensive, training method)</p>
+<h4 id="homework-2"><a href="#homework-2" class="headerlink" title="homework 2"></a>homework 2</h4><p>The skip-gram model with negative sampling (HW2)<br>The normalization factor is too computationally expensive.</p>
+<p>$P(o|c)=\frac{exp(u_o^Tv_c)}{\sum_{w\in V}exp(u_w^Tv_c)}$</p>
+<p>Hence, in standard word2vec and HW2 you implement the skip-gram model with negative sampling.</p>
+<p>Main idea: train binary logistic regressions for a true pair (center word and word in its context window) versus several noise pairs (the center word paired with a random word)</p>
+<h3 id="here-i-get-confused"><a href="#here-i-get-confused" class="headerlink" title="here i get confused!"></a>here i get confused!</h3><p>$$J_{neg-sample}(o,v_c,U)=-log(\sigma(u_o^Tv_c))-\sum_{k=1}^Klog(\sigma(-u_k^Tv_c))$$<br>the K words are randomly chosen.</p>
+<p>$P(w)=U(w)^{3/4}/Z$</p>
+<p>the unigram distribution U(w) raised to the 3/4 power (We provide this function in the starter code).<br>The power makes less frequent words be sampled more often.<br>In this class, when you see Z, it normally means a normalization term to turn things into probabilities</p>
+<h3 id="problems-with-simple-co-occurrence-vectors"><a href="#problems-with-simple-co-occurrence-vectors" class="headerlink" title="problems with simple co-occurrence vectors"></a>problems with simple co-occurrence vectors</h3><p>Increase in size with vocabulary.<br>Very high dimensional: requires a lot of storage.<br>Subsequent classification models have sparsity issues.  </p>
+<h3 id="Solution-Low-dimensional-vectors"><a href="#Solution-Low-dimensional-vectors" class="headerlink" title="Solution: Low dimensional vectors"></a>Solution: Low dimensional vectors</h3><p>idea: store “most” of the important information in a fixed, small number of dimensions: a dense vector.<br>Usually 25-1000 dimensions, similar to word2vec.<br>How to reduce the dimensionality?  </p>
+<h3 id="Method-1-Dimensionality-Reduction-on-X-HW1"><a href="#Method-1-Dimensionality-Reduction-on-X-HW1" class="headerlink" title="Method 1: Dimensionality Reduction on X (HW1)"></a>Method 1: Dimensionality Reduction on X (HW1)</h3><p>Singular Value Decomposition of co-occurrence matrix X.<br>Factorizes X into $U\sum V^T$, where $U$ and $V$ are orthogonal.  </p>
+<h3 id="Hacks-to-X-several-used-in-Rohde-et-al-2005"><a href="#Hacks-to-X-several-used-in-Rohde-et-al-2005" class="headerlink" title="Hacks to X (several used in Rohde et al. 2005)"></a>Hacks to X (several used in Rohde et al. 2005)</h3><p>scaling the counts in the cells can help a lot.<br>Problem: function words (the, he, has) are too frequent -&gt; syntax has too much impact. Some fixes: min(X,t), with t approximately 100, or ignore them all.<br>Ramped windows that count closer words more.<br>Use Pearson correlations instead of counts, then set negative values to 0.<br>Etc.</p>
+<p>You not only get word similarities pretty good.  </p>
+<h3 id="Encoding-meaning-in-vector-differences"><a href="#Encoding-meaning-in-vector-differences" class="headerlink" title="Encoding meaning in vector differences"></a>Encoding meaning in vector differences</h3><p>[Pennington, Socher, and Manning, EMNLP 2014]<br>Crucial insight: Ratios of co-occurrence probabilities can encode meaning components.<br><img src="picture1.png" alt="avatar"></p>
+<p>Q: How can we capture ratios of co-occurrence probabilities as linear meaning components in a word vector space?<br><img src="picture2.png" alt="avatar"></p>
+<h3 id="Combining-the-best-of-both-worlds"><a href="#Combining-the-best-of-both-worlds" class="headerlink" title="Combining the best of both worlds"></a>Combining the best of both worlds</h3><h3 id="GloVe-Pennington-et-al-EMNLP-2014"><a href="#GloVe-Pennington-et-al-EMNLP-2014" class="headerlink" title="GloVe [Pennington et al., EMNLP 2014]"></a>GloVe [Pennington et al., EMNLP 2014]</h3><p><img src="picture3.png" alt="avatar"><br>Good dimension is ~300.<br>Asymmetric context (only words to the left) are not as good.<br>But this might be different for downstream tasks!<br>Windows size of 8 around each center word is good for Glove vectors.  </p>
+<h3 id="On-the-Dimensionality-of-Word-Embedding"><a href="#On-the-Dimensionality-of-Word-Embedding" class="headerlink" title="On the Dimensionality of Word Embedding"></a>On the Dimensionality of Word Embedding</h3><p>[Zi Yin and Yuanyuan Shen, NeurIPS 2018]<br>using matrix perturbation theory, reveal a fundamental bias-variance trade-off in dimensionality selection for word embeddings.</p>
+<h2 id="Word-senses-and-word-sense-ambiguity"><a href="#Word-senses-and-word-sense-ambiguity" class="headerlink" title="Word senses and word sense ambiguity."></a>Word senses and word sense ambiguity.</h2><p>Most words have lots of meanings<br>Especially common words<br>Especially words that have existed for a long time<br>Example: pike</p>
+<p>Does one vector capture all these meanings or do we have a mess?</p>
+<h3 id="Why-don’t-we-come-up-with-a-model-that-has-multiple-sensors-for-a-word"><a href="#Why-don’t-we-come-up-with-a-model-that-has-multiple-sensors-for-a-word" class="headerlink" title="Why don’t we come up with a model that has multiple sensors for a word?"></a>Why don’t we come up with a model that has multiple sensors for a word?</h3>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://music.163.com/outchain/player?type=2&id=1417849873&auto=1&height=66'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lecture-2-Word-Vectors-and-Word-Senses"><span class="toc-number">1.</span> <span class="toc-text">Lecture 2: Word Vectors and Word Senses</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Review-Main-idea-of-word2vec"><span class="toc-number">1.1.</span> <span class="toc-text">Review: Main idea of word2vec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Optimization-Gradient-Descent"><span class="toc-number">1.2.</span> <span class="toc-text">2. Optimization: Gradient Descent</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stochastic-Gradient-Descent"><span class="toc-number">1.2.1.</span> <span class="toc-text">Stochastic Gradient Descent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1b-Word2vec-More-details"><span class="toc-number">1.3.</span> <span class="toc-text">1b. Word2vec: More details</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Additional-efficiency-in-training"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">Additional efficiency in training:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#homework-2"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">homework 2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#here-i-get-confused"><span class="toc-number">1.3.1.</span> <span class="toc-text">here i get confused!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#problems-with-simple-co-occurrence-vectors"><span class="toc-number">1.3.2.</span> <span class="toc-text">problems with simple co-occurrence vectors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-Low-dimensional-vectors"><span class="toc-number">1.3.3.</span> <span class="toc-text">Solution: Low dimensional vectors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method-1-Dimensionality-Reduction-on-X-HW1"><span class="toc-number">1.3.4.</span> <span class="toc-text">Method 1: Dimensionality Reduction on X (HW1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hacks-to-X-several-used-in-Rohde-et-al-2005"><span class="toc-number">1.3.5.</span> <span class="toc-text">Hacks to X (several used in Rohde et al. 2005)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Encoding-meaning-in-vector-differences"><span class="toc-number">1.3.6.</span> <span class="toc-text">Encoding meaning in vector differences</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combining-the-best-of-both-worlds"><span class="toc-number">1.3.7.</span> <span class="toc-text">Combining the best of both worlds</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GloVe-Pennington-et-al-EMNLP-2014"><span class="toc-number">1.3.8.</span> <span class="toc-text">GloVe [Pennington et al., EMNLP 2014]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#On-the-Dimensionality-of-Word-Embedding"><span class="toc-number">1.3.9.</span> <span class="toc-text">On the Dimensionality of Word Embedding</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Word-senses-and-word-sense-ambiguity"><span class="toc-number">1.4.</span> <span class="toc-text">Word senses and word sense ambiguity.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Why-don%E2%80%99t-we-come-up-with-a-model-that-has-multiple-sensors-for-a-word"><span class="toc-number">1.4.1.</span> <span class="toc-text">Why don’t we come up with a model that has multiple sensors for a word?</span></a></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GitHub.io+hexo搭建个人主页-指北 - Yhc&#39;s homepage</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Yhc,"> 
+    <meta name="description" content="hexo与github.io合并搭建个人主页(macOS)Part1: GitHub创建个人仓库首先，注册一个自己的GitHub账号，假定用户名为username。登陆自己的GitHub账户，创建新,"> 
+    <meta name="author" content="Yhc"> 
+    <link rel="alternative" href="atom.xml" title="Yhc&#39;s homepage" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Yhc&#39;s homepage</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://Fjallraven-hc.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">GitHub.io+hexo搭建个人主页-指北</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">GitHub.io+hexo搭建个人主页-指北</h1>
+        <div class="stuff">
+            <span>三月 26, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/" rel="tag">个人网页搭建</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="hexo与github-io合并搭建个人主页-macOS"><a href="#hexo与github-io合并搭建个人主页-macOS" class="headerlink" title="hexo与github.io合并搭建个人主页(macOS)"></a>hexo与github.io合并搭建个人主页(macOS)</h1><h2 id="Part1-GitHub创建个人仓库"><a href="#Part1-GitHub创建个人仓库" class="headerlink" title="Part1: GitHub创建个人仓库"></a>Part1: GitHub创建个人仓库</h2><p>首先，注册一个自己的GitHub账号，假定用户名为username。<br>登陆自己的GitHub账户，创建新仓库，仓库名为username.github.io</p>
+<h2 id="Part2-在自己的macOS终端，设置username和user-email配置信息。"><a href="#Part2-在自己的macOS终端，设置username和user-email配置信息。" class="headerlink" title="Part2: 在自己的macOS终端，设置username和user.email配置信息。"></a>Part2: 在自己的macOS终端，设置username和user.email配置信息。</h2><p>$ git config –global username “个人的GitHub用户名”<br>$ git config –global user.email “个人的GitHub注册邮箱”  </p>
+<p>生成密钥<br>$ ssh-keygen -t rsa -C “个人的GitHub注册邮箱”<br>直接三个回车，默认不需要设置密码，在~/.ssh文件夹下得到两个文件：id_rsa和id_rsa.pub<br>拷贝id_rsa.pub中的内容，粘贴到GitHub中作为新的SSH key。  </p>
+<p>测试GitHub SSH<br>$ ssh -T <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#103;&#105;&#x74;&#64;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;</a><br>看到以下提示：”The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.<br>RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.<br>Are you sure you want to continue connecting (yes/no)?”<br>选择”yes”<br>然后看到提示”Hi username! You’ve successfully authenticated, but GitHub does not provide shell access.”<br>代表GitHub已经设置成功了，祝贺你！</p>
+<h2 id="Part3-安装依赖项目"><a href="#Part3-安装依赖项目" class="headerlink" title="Part3: 安装依赖项目"></a>Part3: 安装依赖项目</h2><p>安装<a target="_blank" rel="noopener" href="https://nodejs.org/">Node.js</a><br>安装Hexo（一个快速、简洁且高效的博客框架）<br>$ sudo npm install -g hexo-cli</p>
+<h2 id="Part4-建立demo网站（使用hexo默认模板-landscape）"><a href="#Part4-建立demo网站（使用hexo默认模板-landscape）" class="headerlink" title="Part4: 建立demo网站（使用hexo默认模板-landscape）"></a>Part4: 建立demo网站（使用hexo默认模板-landscape）</h2><p>在终端进入想要保存博客文件的路径，运行$ hexo\ init\ myblog $<br>此处myblog为样例明名，具体名字可根据个人需要修改，命令运行后会在当前路径创建名字为myblog的文件夹。<br>接下来进入myblog文件夹，输入 $ hexo generate, 生成网页所需的静态文件。<br>输入 $ hexo\ server$, 这个命令在本地终端运行网站。<br>然后打开浏览器，输入网址”localhost:4000”即可。  </p>
+<h2 id="Part5-部署到username-github-io"><a href="#Part5-部署到username-github-io" class="headerlink" title="Part5: 部署到username.github.io"></a>Part5: 部署到username.github.io</h2><p>首先安装 hexo-deployer-git, 终端输入命令”npm install hexo-deployer-git”<br>先在_config.yml中修改如下参数。<br>deploy:<br>  type: git<br>  repo: <a target="_blank" rel="noopener" href="https://github.com/username/username.github.io.git">https://github.com/username/username.github.io.git</a><br>  branch: master<br>配置好后通过终端命令 $ hexo deploy 进行部署即可。<br>之后再登陆网址：username.github.io即可查看自己的网站啦。  </p>
+<h2 id="Part6-关于域名重定向，鉴于网上教程很多-需要自己买喜欢的域名，就不赘述啦。"><a href="#Part6-关于域名重定向，鉴于网上教程很多-需要自己买喜欢的域名，就不赘述啦。" class="headerlink" title="Part6: 关于域名重定向，鉴于网上教程很多+需要自己买喜欢的域名，就不赘述啦。"></a>Part6: 关于域名重定向，鉴于网上教程很多+需要自己买喜欢的域名，就不赘述啦。</h2>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://music.163.com/outchain/player?type=2&id=1417849873&auto=1&height=66'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo%E4%B8%8Egithub-io%E5%90%88%E5%B9%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5-macOS"><span class="toc-number">1.</span> <span class="toc-text">hexo与github.io合并搭建个人主页(macOS)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Part1-GitHub%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%BB%93%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">Part1: GitHub创建个人仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part2-%E5%9C%A8%E8%87%AA%E5%B7%B1%E7%9A%84macOS%E7%BB%88%E7%AB%AF%EF%BC%8C%E8%AE%BE%E7%BD%AEusername%E5%92%8Cuser-email%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E3%80%82"><span class="toc-number">1.2.</span> <span class="toc-text">Part2: 在自己的macOS终端，设置username和user.email配置信息。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part3-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.3.</span> <span class="toc-text">Part3: 安装依赖项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part4-%E5%BB%BA%E7%AB%8Bdemo%E7%BD%91%E7%AB%99%EF%BC%88%E4%BD%BF%E7%94%A8hexo%E9%BB%98%E8%AE%A4%E6%A8%A1%E6%9D%BF-landscape%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Part4: 建立demo网站（使用hexo默认模板-landscape）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part5-%E9%83%A8%E7%BD%B2%E5%88%B0username-github-io"><span class="toc-number">1.5.</span> <span class="toc-text">Part5: 部署到username.github.io</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part6-%E5%85%B3%E4%BA%8E%E5%9F%9F%E5%90%8D%E9%87%8D%E5%AE%9A%E5%90%91%EF%BC%8C%E9%89%B4%E4%BA%8E%E7%BD%91%E4%B8%8A%E6%95%99%E7%A8%8B%E5%BE%88%E5%A4%9A-%E9%9C%80%E8%A6%81%E8%87%AA%E5%B7%B1%E4%B9%B0%E5%96%9C%E6%AC%A2%E7%9A%84%E5%9F%9F%E5%90%8D%EF%BC%8C%E5%B0%B1%E4%B8%8D%E8%B5%98%E8%BF%B0%E5%95%A6%E3%80%82"><span class="toc-number">1.6.</span> <span class="toc-text">Part6: 关于域名重定向，鉴于网上教程很多+需要自己买喜欢的域名，就不赘述啦。</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

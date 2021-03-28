@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>GitHub.io+hexo搭建个人主页-指北</title>
+    <url>/2021/03/26/GitHub.io+hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h1 id="hexo与github-io合并搭建个人主页-macOS"><a href="#hexo与github-io合并搭建个人主页-macOS" class="headerlink" title="hexo与github.io合并搭建个人主页(macOS)"></a>hexo与github.io合并搭建个人主页(macOS)</h1><h2 id="Part1-GitHub创建个人仓库"><a href="#Part1-GitHub创建个人仓库" class="headerlink" title="Part1: GitHub创建个人仓库"></a>Part1: GitHub创建个人仓库</h2><p>首先，注册一个自己的GitHub账号，假定用户名为username。<br>登陆自己的GitHub账户，创建新仓库，仓库名为username.github.io</p>
+<h2 id="Part2-在自己的macOS终端，设置username和user-email配置信息。"><a href="#Part2-在自己的macOS终端，设置username和user-email配置信息。" class="headerlink" title="Part2: 在自己的macOS终端，设置username和user.email配置信息。"></a>Part2: 在自己的macOS终端，设置username和user.email配置信息。</h2><p>$ git config –global username “个人的GitHub用户名”<br>$ git config –global user.email “个人的GitHub注册邮箱”  </p>
+<p>生成密钥<br>$ ssh-keygen -t rsa -C “个人的GitHub注册邮箱”<br>直接三个回车，默认不需要设置密码，在~/.ssh文件夹下得到两个文件：id_rsa和id_rsa.pub<br>拷贝id_rsa.pub中的内容，粘贴到GitHub中作为新的SSH key。  </p>
+<p>测试GitHub SSH<br>$ ssh -T <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#103;&#105;&#x74;&#64;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;</a><br>看到以下提示：”The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.<br>RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.<br>Are you sure you want to continue connecting (yes/no)?”<br>选择”yes”<br>然后看到提示”Hi username! You’ve successfully authenticated, but GitHub does not provide shell access.”<br>代表GitHub已经设置成功了，祝贺你！</p>
+<h2 id="Part3-安装依赖项目"><a href="#Part3-安装依赖项目" class="headerlink" title="Part3: 安装依赖项目"></a>Part3: 安装依赖项目</h2><p>安装<a href="https://nodejs.org/">Node.js</a><br>安装Hexo（一个快速、简洁且高效的博客框架）<br>$ sudo npm install -g hexo-cli</p>
+<h2 id="Part4-建立demo网站（使用hexo默认模板-landscape）"><a href="#Part4-建立demo网站（使用hexo默认模板-landscape）" class="headerlink" title="Part4: 建立demo网站（使用hexo默认模板-landscape）"></a>Part4: 建立demo网站（使用hexo默认模板-landscape）</h2><p>在终端进入想要保存博客文件的路径，运行$ hexo\ init\ myblog $<br>此处myblog为样例明名，具体名字可根据个人需要修改，命令运行后会在当前路径创建名字为myblog的文件夹。<br>接下来进入myblog文件夹，输入 $ hexo generate, 生成网页所需的静态文件。<br>输入 $ hexo\ server$, 这个命令在本地终端运行网站。<br>然后打开浏览器，输入网址”localhost:4000”即可。  </p>
+<h2 id="Part5-部署到username-github-io"><a href="#Part5-部署到username-github-io" class="headerlink" title="Part5: 部署到username.github.io"></a>Part5: 部署到username.github.io</h2><p>首先安装 hexo-deployer-git, 终端输入命令”npm install hexo-deployer-git”<br>先在_config.yml中修改如下参数。<br>deploy:<br>  type: git<br>  repo: <a href="https://github.com/username/username.github.io.git">https://github.com/username/username.github.io.git</a><br>  branch: master<br>配置好后通过终端命令 $ hexo deploy 进行部署即可。<br>之后再登陆网址：username.github.io即可查看自己的网站啦。  </p>
+<h2 id="Part6-关于域名重定向，鉴于网上教程很多-需要自己买喜欢的域名，就不赘述啦。"><a href="#Part6-关于域名重定向，鉴于网上教程很多-需要自己买喜欢的域名，就不赘述啦。" class="headerlink" title="Part6: 关于域名重定向，鉴于网上教程很多+需要自己买喜欢的域名，就不赘述啦。"></a>Part6: 关于域名重定向，鉴于网上教程很多+需要自己买喜欢的域名，就不赘述啦。</h2>]]></content>
+      <tags>
+        <tag>个人网页搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>about</title>
+    <url>/2021/03/26/about/</url>
+    <content><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>沙雕网友你好，我是皓晨，圆明园文理学院cs本科生一枚，专注Python机器学习模型设计与应用落地，偶尔写C++做做开发。喜欢陪女朋友玩耍、骑行、摄影、长跑，梦想是拥有自己的互联网大厂 / 做985计算机教授。</p>
+<p>本人有几个属性：</p>
+<p>游戏，人类一败涂地与csgo常驻玩家。<br>折腾，日常无聊重装系统、拆卸主板上的内存与硬盘、折腾自己的个人主页。<br>骑行，暂定2021暑假从成都到拉萨，骑行318。<br>命令，享受它优雅的步伐和爽快的反馈，当然，装 X 必备。  </p>
+<p>开源项目<br>未来会有的。。。</p>
+<p>关于小站<br>小站搭载 Hexo 动力系统，配合 Diaspora 金属漆，五菱宏光 / 思域见了都得让三分。2021年3月，我开始写博客，看看能坚持多久呢。。。</p>
+<p>少即是多 ( Less is more )，喜欢干净简洁，有用的，坚持原创。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>some useful formula for markdown</title>
+    <url>/2021/03/28/technique%20for%20md/</url>
+    <content><![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<h2 id="some-useful-formula-for-markdown"><a href="#some-useful-formula-for-markdown" class="headerlink" title="some useful formula for markdown"></a>some useful formula for markdown</h2><p>$y=a+bx$</p>
+<p>$y=a+bx_{ij}^2$</p>
+<p>$\sum_{i=0}^n(x_i^2+y_j^3)$</p>
+<p>$\frac{x_i^2}{y^3_j}$</p>
+<p>矩阵 matrix<br>$$ \left[\begin{array}{cccc}<br>X_1&amp;Y_1^2\<br>X_2 &amp; Y_2^2\<br>\ldots &amp; \ldots\<br>X_n&amp;Y_n^2<br>\end{array} \right]$$</p>
+<p>$$ \sqrt[2]{b^2-4ac} $$</p>
+<p>希腊字母，首字母大写即可获得新符号<br>$$ \left[\begin{array}{cccc}<br>\alpha &amp; \beta &amp; \gamma &amp; \delta &amp; \epsilon \<br>\varepsilon &amp; \zeta &amp; \eta &amp; \theta &amp; \vartheta \<br>\iota &amp; \kappa &amp; \lambda &amp; \mu &amp; \nu \<br>\xi &amp; \pi &amp; \varpi &amp; \rho &amp; \varrho \<br>\rho &amp; \varrho &amp; \sigma &amp; \varsigma &amp; \tau \<br>\upsilon &amp; \phi &amp; \varphi &amp; \chi &amp; \psi &amp; \omega\<br>\end{array} \right]$$</p>
+<p>$$ f(x_1,x_2,\ldots,x_i) = x_1+x_2+\cdots+x_i$$</p>
+<p>大号括号<br>$$ x + \left(y^2+\frac{x^2+z}{1+z^2}\right) $$</p>
+<p>$\left(\right)$</p>
+<p>$$ \begin{eqnarray*}<br>\cos2\theta&amp;=&amp;\cos^2\theta-\sin^2\theta\<br>&amp;=&amp;2\cos^2\theta-1<br>\end{eqnarray*}$$</p>
+]]></content>
+      <tags>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cs224n-2019, Lecture02 notes, Word Vectors and Word Senses</title>
+    <url>/2021/03/28/cs224n-2019-notes-02/</url>
+    <content><![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<h1 id="Lecture-2-Word-Vectors-and-Word-Senses"><a href="#Lecture-2-Word-Vectors-and-Word-Senses" class="headerlink" title="Lecture 2: Word Vectors and Word Senses"></a>Lecture 2: Word Vectors and Word Senses</h1><p>this is a notebook used really for class notes!</p>
+<h2 id="Review-Main-idea-of-word2vec"><a href="#Review-Main-idea-of-word2vec" class="headerlink" title="Review: Main idea of word2vec"></a>Review: Main idea of word2vec</h2><p>lterate through each word of the whole corpus</p>
+<p>Predict surrounding words using word vectors</p>
+<p>$P(o|c)=\frac{exp(u_o^Tv_c)}{\sum_{w\in V}exp(u_w^Tv_c)}$</p>
+<p>the goal is to change the word vector representation so that it can predict well.</p>
+<p>Every word must have a high dot product with words like that and that and …?</p>
+<p>word2vec maximizes objective function by putting similar words nearby in space.</p>
+<h2 id="2-Optimization-Gradient-Descent"><a href="#2-Optimization-Gradient-Descent" class="headerlink" title="2. Optimization: Gradient Descent"></a>2. Optimization: Gradient Descent</h2><p>we have a cost function $J(\theta)$ we want to minimize.<br>Gradient Descent is an alorithm to minimize $J(\theta)$.<br>Idea: for current value of $\theta$, calculate gradient of $J(\theta)$, then take small step in the direction of neative gradient. Repeat.</p>
+<p>Note: Our objective function may not be convex.</p>
+<p>Update equation (in matrix notation):<br>$$\theta^{new} = \theta^{old}-\alpha\nabla_\theta J(\theta)$$</p>
+<p>Update equation (for a single parameter):<br>$$\theta^{new}_j = \theta^{old}_j-\alpha\frac{\partial}{\partial\theta_j^{old}} J(\theta)$$</p>
+<h3 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h3><p>$J(\theta)$ is a function of all windows in the corpus (potentially billions!), so $\nabla_{\theta}J(\theta)$ is very expensive to compute. You would wait a very long time before making a single update!</p>
+<p>Very bad idea for pretty much all neural nets!<br>Solution: Stochastic gradient descent (SGD)</p>
+<h2 id="1b-Word2vec-More-details"><a href="#1b-Word2vec-More-details" class="headerlink" title="1b. Word2vec: More details"></a>1b. Word2vec: More details</h2><p>$$Skip-grams (SG)$$<br>Predict context(“outside”) words(position independent) given center word<br>$$Continuous\ Bag\ of\ Words\ (CBOW)$$<br>Predict center word from (bag of) context words</p>
+<p>Actually we presented: Skip-gram model</p>
+<h4 id="Additional-efficiency-in-training"><a href="#Additional-efficiency-in-training" class="headerlink" title="Additional efficiency in training:"></a>Additional efficiency in training:</h4><p>Negative sampling</p>
+<p>So far: Focus on naive softmax (simpler, but expensive, training method)</p>
+<h4 id="homework-2"><a href="#homework-2" class="headerlink" title="homework 2"></a>homework 2</h4><p>The skip-gram model with negative sampling (HW2)<br>The normalization factor is too computationally expensive.</p>
+<p>$P(o|c)=\frac{exp(u_o^Tv_c)}{\sum_{w\in V}exp(u_w^Tv_c)}$</p>
+<p>Hence, in standard word2vec and HW2 you implement the skip-gram model with negative sampling.</p>
+<p>Main idea: train binary logistic regressions for a true pair (center word and word in its context window) versus several noise pairs (the center word paired with a random word)</p>
+<h3 id="here-i-get-confused"><a href="#here-i-get-confused" class="headerlink" title="here i get confused!"></a>here i get confused!</h3><p>$$J_{neg-sample}(o,v_c,U)=-log(\sigma(u_o^Tv_c))-\sum_{k=1}^Klog(\sigma(-u_k^Tv_c))$$<br>the K words are randomly chosen.</p>
+<p>$P(w)=U(w)^{3/4}/Z$</p>
+<p>the unigram distribution U(w) raised to the 3/4 power (We provide this function in the starter code).<br>The power makes less frequent words be sampled more often.<br>In this class, when you see Z, it normally means a normalization term to turn things into probabilities</p>
+<h3 id="problems-with-simple-co-occurrence-vectors"><a href="#problems-with-simple-co-occurrence-vectors" class="headerlink" title="problems with simple co-occurrence vectors"></a>problems with simple co-occurrence vectors</h3><p>Increase in size with vocabulary.<br>Very high dimensional: requires a lot of storage.<br>Subsequent classification models have sparsity issues.  </p>
+<h3 id="Solution-Low-dimensional-vectors"><a href="#Solution-Low-dimensional-vectors" class="headerlink" title="Solution: Low dimensional vectors"></a>Solution: Low dimensional vectors</h3><p>idea: store “most” of the important information in a fixed, small number of dimensions: a dense vector.<br>Usually 25-1000 dimensions, similar to word2vec.<br>How to reduce the dimensionality?  </p>
+<h3 id="Method-1-Dimensionality-Reduction-on-X-HW1"><a href="#Method-1-Dimensionality-Reduction-on-X-HW1" class="headerlink" title="Method 1: Dimensionality Reduction on X (HW1)"></a>Method 1: Dimensionality Reduction on X (HW1)</h3><p>Singular Value Decomposition of co-occurrence matrix X.<br>Factorizes X into $U\sum V^T$, where $U$ and $V$ are orthogonal.  </p>
+<h3 id="Hacks-to-X-several-used-in-Rohde-et-al-2005"><a href="#Hacks-to-X-several-used-in-Rohde-et-al-2005" class="headerlink" title="Hacks to X (several used in Rohde et al. 2005)"></a>Hacks to X (several used in Rohde et al. 2005)</h3><p>scaling the counts in the cells can help a lot.<br>Problem: function words (the, he, has) are too frequent -&gt; syntax has too much impact. Some fixes: min(X,t), with t approximately 100, or ignore them all.<br>Ramped windows that count closer words more.<br>Use Pearson correlations instead of counts, then set negative values to 0.<br>Etc.</p>
+<p>You not only get word similarities pretty good.  </p>
+<h3 id="Encoding-meaning-in-vector-differences"><a href="#Encoding-meaning-in-vector-differences" class="headerlink" title="Encoding meaning in vector differences"></a>Encoding meaning in vector differences</h3><p>[Pennington, Socher, and Manning, EMNLP 2014]<br>Crucial insight: Ratios of co-occurrence probabilities can encode meaning components.<br><img src="picture1.png" alt="avatar"></p>
+<p>Q: How can we capture ratios of co-occurrence probabilities as linear meaning components in a word vector space?<br><img src="picture2.png" alt="avatar"></p>
+<h3 id="Combining-the-best-of-both-worlds"><a href="#Combining-the-best-of-both-worlds" class="headerlink" title="Combining the best of both worlds"></a>Combining the best of both worlds</h3><h3 id="GloVe-Pennington-et-al-EMNLP-2014"><a href="#GloVe-Pennington-et-al-EMNLP-2014" class="headerlink" title="GloVe [Pennington et al., EMNLP 2014]"></a>GloVe [Pennington et al., EMNLP 2014]</h3><p><img src="picture3.png" alt="avatar"><br>Good dimension is ~300.<br>Asymmetric context (only words to the left) are not as good.<br>But this might be different for downstream tasks!<br>Windows size of 8 around each center word is good for Glove vectors.  </p>
+<h3 id="On-the-Dimensionality-of-Word-Embedding"><a href="#On-the-Dimensionality-of-Word-Embedding" class="headerlink" title="On the Dimensionality of Word Embedding"></a>On the Dimensionality of Word Embedding</h3><p>[Zi Yin and Yuanyuan Shen, NeurIPS 2018]<br>using matrix perturbation theory, reveal a fundamental bias-variance trade-off in dimensionality selection for word embeddings.</p>
+<h2 id="Word-senses-and-word-sense-ambiguity"><a href="#Word-senses-and-word-sense-ambiguity" class="headerlink" title="Word senses and word sense ambiguity."></a>Word senses and word sense ambiguity.</h2><p>Most words have lots of meanings<br>Especially common words<br>Especially words that have existed for a long time<br>Example: pike</p>
+<p>Does one vector capture all these meanings or do we have a mess?</p>
+<h3 id="Why-don’t-we-come-up-with-a-model-that-has-multiple-sensors-for-a-word"><a href="#Why-don’t-we-come-up-with-a-model-that-has-multiple-sensors-for-a-word" class="headerlink" title="Why don’t we come up with a model that has multiple sensors for a word?"></a>Why don’t we come up with a model that has multiple sensors for a word?</h3>]]></content>
+      <tags>
+        <tag>自然语言处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于西安</title>
+    <url>/2021/03/26/%E5%85%B3%E4%BA%8E%E8%A5%BF%E5%AE%89/</url>
+    <content><![CDATA[<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1417849873&auto=1&height=66"></iframe>  
+
+<p>封面是太白山。<br>就动笔写一点，这个呆了十八年的地方。<br>好吧这只是个demo。  </p>
+]]></content>
+      <tags>
+        <tag>家乡</tag>
+      </tags>
+  </entry>
+</search>
